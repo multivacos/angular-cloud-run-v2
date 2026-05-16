@@ -1,6 +1,7 @@
 pipeline {
-    agent any
-
+    agent {
+        docker { image 'google/cloud-sdk::stable' }
+    }
     environment {
         // Variables migradas de tu env de GitHub Actions
         GCP_PROJECT_ID         = "sanbox-aldo-prod"
