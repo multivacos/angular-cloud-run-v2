@@ -7,7 +7,6 @@ pipeline {
         ARTIFACT_REGISTRY_REPO = "container-repository-gemini-at" 
         CLOUD_RUN_SERVICE_NAME = "gemini-angular-app"
         ENVIRONMENT_NAME       = "dev"
-        CLOUDSDK_CONFIG        = "${WORKSPACE}/.config/gcloud"
         
         GIT_COMMIT_SHORT       = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
         IMAGE_TAG              = "${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${ARTIFACT_REGISTRY_REPO}/${CLOUD_RUN_SERVICE_NAME}:${GIT_COMMIT_SHORT}"
@@ -24,7 +23,7 @@ pipeline {
             agent {
                 docker { 
                     image 'google/cloud-sdk:stable'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock --user root'
                 }
             }
             steps {
